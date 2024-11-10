@@ -1,6 +1,6 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "./ui/button";
-import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { BriefcaseBusiness, PenBox } from "lucide-react";
 import { useEffect, useState } from "react";
 import { SignIn } from "@clerk/clerk-react";
@@ -8,6 +8,7 @@ import { SignIn } from "@clerk/clerk-react";
 const Header = () => {
   const [showSignIn, setShowSign] = useState(false);
   const [search, setSearch] = useSearchParams();
+  const { user } = useUser();
   //here target refers to the div container so it was closing if we click on login box it won't work
 
   useEffect(() => {
@@ -37,11 +38,14 @@ const Header = () => {
             </Button>
           </SignedOut>
           <SignedIn>
-            <Button variant="destructive" className="rounded-full">
-              <PenBox size={20} className="mr-2"></PenBox>
-              Post a job
-            </Button>
-            <Link to="/post-job"></Link>
+            {user?.unsafeMetadata?.role === "recruiter" && (
+              <Link to="/post-job">
+                <Button variant="destructive" className="rounded-full">
+                  <PenBox size={20} className="mr-2"></PenBox>
+                  Post a job
+                </Button>
+              </Link>
+            )}
             <UserButton
               appearance={{
                 elements: {

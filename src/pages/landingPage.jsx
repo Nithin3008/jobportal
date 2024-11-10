@@ -15,8 +15,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useUser } from "@clerk/clerk-react";
 
 const LandingPage = () => {
+  const { user } = useUser();
   return (
     <>
       <main className="flex flex-col gap-10 sm:gap-20 py-10 sm:py-20">
@@ -37,16 +39,20 @@ const LandingPage = () => {
           </p>
         </section>
         <div className="flex gap-6 justify-center">
-          <Link to="/jobs">
-            <Button variant="blue" size="xl">
-              Find Jobs
-            </Button>
-          </Link>
-          <Link to="/post-job">
-            <Button size="xl" variant="destructive">
-              Post a job
-            </Button>
-          </Link>
+          {user?.unsafeMetadata.role === "candidate" && (
+            <Link to="/jobs">
+              <Button variant="blue" size="xl">
+                Find Jobs
+              </Button>
+            </Link>
+          )}
+          {user?.unsafeMetadata.role === "recruiter" && (
+            <Link to="/post-job">
+              <Button size="xl" variant="destructive">
+                Post a job
+              </Button>
+            </Link>
+          )}
         </div>
         <div>
           <Carousel
