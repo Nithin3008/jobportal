@@ -9,6 +9,9 @@ import {
 import { Heart, MapPinIcon, Trash2Icon } from "lucide-react";
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
+import { saveJob } from "@/api/jobsApi";
+import userFetch from "@/hooks/User-fetch";
+import { useEffect, useState } from "react";
 
 const JobCard = ({
   job,
@@ -16,7 +19,26 @@ const JobCard = ({
   savedInit = false,
   onJobSaved = () => {},
 }) => {
+  const [saved, setSaved] = useState(savedInit);
+  const {
+    loading: loadingSavedJob,
+    fun: fnSavedJobs,
+    data: savedJob,
+  } = userFetch(saveJob, {
+    alreadySaved: saved,
+  });
   const { user } = useUser();
+  const handleSaveJob = async () => {
+    await fnSavedJobs({
+      user_id: user.id,
+      job_id: job.id,
+    });
+    onJobSaved();
+  };
+
+  useEffect(() => {
+    if (savedJob !== undefined) setSaved(savedJob?.length > 0);
+  }, [savedJob]);
   return (
     <Card>
       <CardHeader>
@@ -49,7 +71,20 @@ const JobCard = ({
             More Details
           </Button>
         </Link>
-        <Heart size={20} color="red" fill="red" />
+        {!isMyJob && (
+          <Button
+            variant="outline"
+            className="w-15"
+            disabled={loadingSavedJob}
+            onClick={handleSaveJob}
+          >
+            {saved ? (
+              <Heart size={20} color="red" fill="red" />
+            ) : (
+              <Heart size={20} color="red" />
+            )}
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );
