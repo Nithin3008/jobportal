@@ -9,6 +9,7 @@ import PostJob from "./pages/post-job";
 import SavedJob from "./pages/saved-job";
 import { ThemeProvider } from "./components/theme-provider";
 import ProtecedRoute from "./components/protected-route";
+import JobPage from "./pages/jobPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -63,7 +64,7 @@ function App() {
           path: "/job/:id",
           element: (
             <ProtecedRoute>
-              <PostJob />
+              <JobPage></JobPage>
             </ProtecedRoute>
           ),
         },
