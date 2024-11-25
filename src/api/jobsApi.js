@@ -11,7 +11,7 @@ export async function getJobs(token, { location, company_id, searchQuery }) {
     query = query.eq("location", location);
   }
   if (company_id) {
-    query = query.eq("location", location);
+    query = query.eq("company_id", company_id);
   }
   if (searchQuery) {
     //if the title contains the search query only those will be returned
