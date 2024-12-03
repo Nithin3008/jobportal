@@ -14,6 +14,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import ApplyJobDrawer from "@/components/applyJob";
+import ApplicationCard from "@/components/applicationCard";
+
 const JobPage = () => {
   const { isLoaded, user } = useUser();
   const { id } = useParams();
@@ -106,6 +108,17 @@ const JobPage = () => {
           fetchJob={fnJob}
           applied={job?.application?.find((ap) => ap.candidate_id === user.id)}
         />
+      )}
+
+      {job?.application?.length > 0 && job?.recruiter_id === user.id && (
+        <div className="flex flex-col gap-2">
+          <h2 className="text-2xl sm:text-3xl font-bold">Applications</h2>
+          {job?.application.map((application) => {
+            return (
+              <ApplicationCard key={application.id} application={application} />
+            );
+          })}
+        </div>
       )}
     </div>
   );
