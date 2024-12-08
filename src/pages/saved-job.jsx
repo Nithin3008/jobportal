@@ -35,7 +35,7 @@ const SavedJob = () => {
                   key={saved.id}
                   job={saved?.job}
                   savedInit={true}
-                  onJobSaved={fnSavedJobs}
+                  onJobAction={fnSavedJobs}
                 />
               );
             })
