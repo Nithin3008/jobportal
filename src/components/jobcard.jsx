@@ -20,6 +20,7 @@ const JobCard = ({
   onJobSaved = () => {},
 }) => {
   const [saved, setSaved] = useState(savedInit);
+
   const {
     loading: loadingSavedJob,
     fun: fnSavedJobs,
@@ -27,18 +28,17 @@ const JobCard = ({
   } = userFetch(saveJob, {
     alreadySaved: saved,
   });
+
   const { user } = useUser();
   const handleSaveJob = async () => {
     await fnSavedJobs({
       user_id: user.id,
       job_id: job.id,
     });
+    setSaved((save) => !save);
     onJobSaved();
   };
 
-  useEffect(() => {
-    if (savedJob !== undefined) setSaved(savedJob?.length > 0);
-  }, [savedJob]);
   return (
     <Card className="flex flex-col">
       <CardHeader>
