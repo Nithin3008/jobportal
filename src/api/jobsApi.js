@@ -29,6 +29,7 @@ export async function getJobs(token, { location, company_id, searchQuery }) {
 export async function saveJob(token, { alreadySaved }, saveData) {
   const supabase = await supabaseClient(token);
 
+  console.log(alreadySaved, "savejob function");
   if (alreadySaved) {
     // If the job is already saved, remove it
     const { data, error: deleteError } = await supabase
@@ -96,6 +97,21 @@ export async function addNewJob(token, _, jobData) {
     .from("jobs")
     .insert([jobData])
     .select();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Error Creating Job");
+  }
+
+  return data;
+}
+
+export async function getSavedjobs(token) {
+  const supabase = await supabaseClient(token);
+
+  const { data, error } = await supabase
+    .from("saved_jobs")
+    .select("*, job:jobs(*,company:companies(name,logo))");
 
   if (error) {
     console.error(error);
