@@ -1,5 +1,5 @@
 import { getJobs } from "@/api/jobsApi";
-import userFetch from "@/hooks/user-fetch";
+import userFetch from "@/hooks/User-fetch";
 import { useUser } from "@clerk/clerk-react";
 import { BarLoader } from "react-spinners";
 import { useEffect, useState } from "react";
