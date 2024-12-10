@@ -63,14 +63,14 @@ const JobCard = ({
         </CardTitle>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="space-y-3">
         <div className="flex  justify-between">
           {job.company && <img src={job.company.logo} className="h-6" />}
           <div className="flex gap-2 items-center">
             <MapPinIcon size={15} /> {job.location}
           </div>
         </div>
-        <hr />
+        <hr className="p-1" />
         {job.description.substring(0, job.description.indexOf("."))}
       </CardContent>
       <CardFooter className="flex gap-2">
